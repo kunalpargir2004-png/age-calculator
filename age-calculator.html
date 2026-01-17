@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 40px;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            width: 350px;
+            border-radius: 8px;
+        }
+        input, button {
+            padding: 8px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Age Calculator</h2>
+
+    <label>Date of Birth (dd-mm-yyyy)</label>
+    <input type="text" id="dob" placeholder="15-08-1995">
+
+    <button onclick="calculateAge()">Calculate Age</button>
+
+    <div class="result" id="output"></div>
+</div>
+
+<script>
+function calculateAge() {
+    let dobInput = document.getElementById("dob").value;
+    let parts = dobInput.split("-");
+
+    if (parts.length !== 3) {
+        document.getElementById("output").innerText = "Invalid Date Format";
+        return;
+    }
+
+    let day = parseInt(parts[0]);
+    let month = parseInt(parts[1]) - 1;
+    let year = parseInt(parts[2]);
+
+    let dob = new Date(year, month, day);
+    let today = new Date();
+
+    let years = today.getFullYear() - dob.getFullYear();
+    let months = today.getMonth() - dob.getMonth();
+    let days = today.getDate() - dob.getDate();
+
+    if (days < 0) {
+        months--;
+        let lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+        days += lastMonth.getDate();
+    }
+
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    let totalDays = Math.floor((today - dob) / (1000 * 60 * 60 * 24));
+
+    document.getElementById("output").innerHTML =
+        "Age: " + years + " Years, " + months + " Months, " + days + " Days<br>" +
+        "Total Days Lived: " + totalDays;
+}
+</script>
+
+</body>
+</html>
